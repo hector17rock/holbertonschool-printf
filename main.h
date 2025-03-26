@@ -1,10 +1,13 @@
+#ifndef MAIN_H
+#define MAIN_H
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
 #include <string.h>
-#include "main.h"
 
 int print_char(va_list args);
+int _printf(const char *format, ...);
 int print_string(va_list args);
 int print_int(va_list args);
 int print_unsigned(va_list args);
@@ -22,5 +25,6 @@ typedef struct format_specifier
 {
   char specifier;
   int (*f)(va_list args);
-} format_specifier_t;
+} format_specifier;
+
 #endif
