@@ -1,49 +1,53 @@
-#include "main.h"
-
-/**
- * _printf - Costume print function
- * @format: Format string with specifiers
- * Return:Number of character printed
- */
-
 int _printf(const char *format, ...)
 {
+	int i = 0, len = 0;
 	va_list args;
-	int count = 0;
 
-	va_star(args, format);
-	while (*format)
+	/* Define function pointers array */
+	format_specifier_t format_specifiers[] = {
+		{'c', print_char},
+		{'s', print_string},
+		{'d', print_int},
+		{'i', print_int},
+		{'u', print_unsigned},
+		{'o', print_octal},
+		{'x', print_hex},
+		{'X', print_hex},
+		{'p', print_address},
+		{'%', print_percent},
+		{0, NULL} /* end of array */
+	};
+
+	va_start(args, format);
+
+	while (format && format[i])
 	{
-		if (*format == '%')
+		if (format[i] == '%')
 		{
-			format++;
-			switch (*format)
+			i++;
+			int j = 0;
+			while (format_specifiers[j].specifier != 0)
 			{
-				case 'c': count += print_char(args); break;
-				case 's': count += print_string(args); break;
-				case 'd': case 'i': count += print_int(args); break;
-				case 'b': count += print_binary(args); break;
-				case 'u': count += print_unsigned(args); break;
-				case 'o': count += print_octal(args); break;
-				case 'x': count += print_hex(args, 0); break;
-				case 'X': count += print_hex(args, 1); break;
-				case 'S': count += print_S(args); break;
-				case 'p': count += print_pointer(args); break;
-				case '%': count += print_percent(args); break;
-				default: /* Unknown specifier */
-						  _putchar('%');
-						  _putchar(*(format);
-								  count += 2;
-								  break;
-								  }
-								  }
-								  else
-								  {
-								  _putchar(*format);
-								  count++;
-								  }
-								  format++;
-								  }
-								  va_end(args);
-								  return (count);
-								  }
+				if (format[i] == format_specifiers[j].specifier)
+				{
+					len += format_specifiers[j].f(args);
+					break;
+				}
+				j++;
+			}
+			if (format_specifiers[j].specifier == 0)
+			{
+				len += write(1, "%", 1); /* Handle invalid format specifier */
+				len += write(1, &format[i], 1); /* Print the next character after '%' */
+			}
+		}
+		else
+		{
+			len += write(1, &format[i], 1);
+		}
+		i++;
+	}
+
+	va_end(args);
+	return len;
+}

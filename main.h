@@ -1,29 +1,26 @@
-#indef MIAN_H
-#define MAIN_H
-
+#include <stdio.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <string.h>
+#include "main.h"
 
-/* Main function */
-int _printf(const char *format, ...);
-
-/* Function for specifiers */
 int print_char(va_list args);
 int print_string(va_list args);
 int print_int(va_list args);
-int print_binary(va_list args);
 int print_unsigned(va_list args);
 int print_octal(va_list args);
-int print_hex(va_list args, int uppercase);
-int print_s(va_list args);
-int print_pointer(va_list args);
+int print_hex(va_list args);
+int print_address(va_list args);
 int print_percent(va_list args);
 
-/* Utility Functions */
-int _putchar(char c);
-int _puts(cha *str);
-int _strlen(char *s);
-int print_number(int n);
-int print_unsigned_number(unsigned int n);
-
+/**
+ * struct format_specifier - structure for a format specifier and function
+ * @specifier: the format specifier
+ * @f: the function that handles the specifier
+ */
+typedef struct format_specifier
+{
+  char specifier;
+  int (*f)(va_list args);
+} format_specifier_t;
 #endif
