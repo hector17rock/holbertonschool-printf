@@ -11,9 +11,8 @@
  *
  * Return: Always returns 1 (for the one character printed).
  */
-int print_percent(va_list args)
+int print_percent(void)
 {
-	(void)args; /* Unused parameter */
 	write(1, "%", 1); /* Write a percent symbol */
 	return (1); /* Return 1 for one character printed */
 }
