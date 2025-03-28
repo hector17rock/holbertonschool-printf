@@ -1,30 +1,21 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h>
-#include <stdarg.h>
+#include <stdarg.h>  /* For va_list and va_arg */
 #include <unistd.h>
-#include <string.h>
 
-int print_char(va_list args);
+/* Function prototypes */
 int _printf(const char *format, ...);
+int print_char(va_list args);
 int print_string(va_list args);
-int print_int(va_list args);
-int print_unsigned(va_list args);
+int print_percent(va_list args);
+int print_number(va_list args);
+int print_unsigned_number(va_list args);
 int print_octal(va_list args);
 int print_hex(va_list args);
+int print_hex_helper(unsigned long n, char format);  /* Added helper function */
 int print_address(va_list args);
-int print_percent(va_list args);
+int handle_specifiers(const char *ptr, va_list args);
 
-/**
- * struct format_specifier - structure for a format specifier and function
- * @specifier: the format specifier
- * @f: the function that handles the specifier
- */
-typedef struct format_specifier
-{
-  char specifier;
-  int (*f)(va_list args);
-} format_specifier;
+#endif /* MAIN_H */
 
-#endif

@@ -1,46 +1,75 @@
 #include "main.h"
+#include <unistd.h>
+#include <stdarg.h>
 
+/**
+ * _printf - A simple implementation of printf function.
+ * @format: The format string that contains the directives.
+ *
+ * Return: The number of characters printed (excluding the null byte).
+ */
 int _printf(const char *format, ...)
 {
-	int i = 0, len = 0, j = 0;
 	va_list args;
-
-	/* Define function pointers array */
-	format_specifier format_specifiers[] = {
-		{'c', print_char},
-		{'s', print_string},
-		{'%', print_percent},
-		{0, NULL} /* end of array */
-	};
+	int count = 0;
+	const char *ptr;
 
 	va_start(args, format);
 
-	while (format && format[i])
+	for (ptr = format; *ptr != '\0'; ptr++)
 	{
-		if (format[i] == '%')
-		{	
-			while (format_specifiers[j].specifier != 0)
-			{
-				if (format[i] == format_specifiers[j].specifier)
-				{
-					len += format_specifiers[j].f(args);
-					break;
-				}
-				j++;
-			}
-			if (format_specifiers[j].specifier == 0)
-			{
-				len += write(1, "%", 1); /* Handle invalid format specifier */
-				len += write(1, &format[i], 1); /* Print the next character after '%' */
-			}
+		if (*ptr == '%' && (*(ptr + 1) == 'c' || *(ptr + 1) == 's' ||
+					*(ptr + 1) == '%' || *(ptr + 1) == 'd' ||
+					*(ptr + 1) == 'i' || *(ptr + 1) == 'u' ||
+					*(ptr + 1) == 'o' || *(ptr + 1) == 'x' ||
+					*(ptr + 1) == 'X' || *(ptr + 1) == 'p'))
+		{
+			count += handle_specifiers(ptr + 1, args);
+			ptr++; /* Skip over the specifier */
 		}
 		else
 		{
-			len += write(1, &format[i], 1);
+			write(1, ptr, 1);
+			count++;
 		}
-		i++;
 	}
 
 	va_end(args);
-	return len;
+	return (count);
 }
+
+/**
+ * handle_specifiers - Handles the format specifiers.
+ * @spec: The format specifier.
+ * @args: The va_list containing the arguments.
+ *
+ * Return: The number of characters printed.
+ */
+int handle_specifiers(const char *spec, va_list args)
+{
+	int count = 0;
+
+	if (*spec == '%')
+	{
+		count += print_percent(args);
+	}
+	else if (*spec == 'd' || *spec == 'i')
+	{
+		count += print_number(args);
+	}
+	else if (*spec == 'u')
+	{
+		count += print_unsigned_number(args);
+	}
+	else if (*spec == 'o')
+	{
+		count += print_octal(args);
+	}
+	else if (*spec == 'x' || *spec == 'X')
+	{
+		count += print_hex(args);
+	}
+
+	return count;
+}
+
