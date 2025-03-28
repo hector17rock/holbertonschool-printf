@@ -13,7 +13,7 @@ int print_number(va_list args);
 int print_unsigned_number(va_list args);
 int print_octal(va_list args);
 int print_hex(va_list args);
-int print_hex_helper(unsigned long n, char format);  /* Added helper function */
+int print_hex_helper(unsigned long n, char format);  /* NO BETTY */
 int print_address(va_list args);
 int handle_specifiers(const char *ptr, va_list args);
 
