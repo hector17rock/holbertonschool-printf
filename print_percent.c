@@ -13,7 +13,7 @@
  */
 int print_percent(void)
 {
-	write(1, "%", 1); /* Write a percent symbol */
+	write(1, "%", 1); /* NO BETTY */
 	return (1); /* Return 1 for one character printed */
 }
 
