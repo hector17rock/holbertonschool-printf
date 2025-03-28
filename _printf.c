@@ -70,6 +70,6 @@ int handle_specifiers(const char *spec, va_list args)
 		count += print_hex(args);
 	}
 
-	return count;
+	return (count);
 }
 

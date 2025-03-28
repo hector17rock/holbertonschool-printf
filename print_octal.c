@@ -9,17 +9,17 @@
  */
 static int print_octal_helper(unsigned int n)
 {
-    int count;
-    char digit;
+	int count;
+	char digit;
 
-    count = 0;
-    if (n / 8)
-        count += print_octal_helper(n / 8);
+	count = 0;
+	if (n / 8)
+		count += print_octal_helper(n / 8);
 
-    digit = (n % 8) + '0';
-    count += write(1, &digit, 1);
+	digit = (n % 8) + '0';
+	count += write(1, &digit, 1);
 
-    return (count);
+	return (count);
 }
 
 /**
@@ -30,8 +30,8 @@ static int print_octal_helper(unsigned int n)
  */
 int print_octal(va_list args)
 {
-    unsigned int n;
+	unsigned int n;
 
-    n = va_arg(args, unsigned int);
-    return (print_octal_helper(n));
+	n = va_arg(args, unsigned int);
+	return (print_octal_helper(n));
 }

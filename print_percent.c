@@ -1,15 +1,21 @@
 #include "main.h"
 #include <unistd.h>
+#include <stdio.h>
 
 /**
- * print_percent - Prints a percent sign.
+ * print_percent - Prints a percent symbol.
  *
- * Return: The number of characters printed.
+ * @args: va_list parameter (unused but required for consistency).
+ *
+ * This function writes a percent symbol using the write() function.
+ *
+ * Return: Always returns 1 (for the one character printed).
  */
 int print_percent(va_list args)
 {
-    (void)args; /* Suppress unused parameter warning */
-
-    /* Print the percent symbol */
-    return write(1, "%", 1);
+	(void)args; /* Unused parameter */
+	write(1, "%", 1); /* Write a percent symbol */
+	return (1); /* Return 1 for one character printed */
 }
+
+
