@@ -1,0 +1,202 @@
+.TH PRINTF 3 "March 2025" "Custom Library" "Library Functions"
+.SH NAME
+printf \- Custom implementation of the printf function.
+.SH SYNOPSIS
+.B int _printf(const char *format, ...);
+.SH DESCRIPTION
+The 
+.B _printf
+function is a custom implementation of the standard 
+.B printf
+function, designed to process formatted output. The function accepts a format string containing format specifiers, followed by arguments that match the format specifiers.
+
+The function uses a variadic argument list to handle different types of arguments, such as characters, strings, integers, unsigned integers, and others. It uses system calls like `write()` to output the result directly to the standard output.
+
+.SH PARAMETERS
+The function takes a single parameter:
+.TP
+.B format
+A constant string containing the format specifiers. The format string can contain regular characters and format specifiers, which will be replaced by corresponding arguments passed to the function.
+
+The function recognizes the following specifiers:
+.IP %
+Prints a percent sign.
+.IP c
+Prints a character.
+.IP s
+Prints a string.
+.IP d, i
+Prints a signed integer.
+.IP u
+Prints an unsigned integer.
+.IP o
+Prints an unsigned integer in octal format.
+.IP x, X
+Prints an unsigned integer in hexadecimal format (lowercase or uppercase).
+.IP p
+Prints the address of a pointer in hexadecimal format.
+
+.SH RETURN VALUE
+The function returns the total number of characters printed (excluding the null byte).
+
+.SH EXAMPLES
+Example usage within a custom `printf` implementation:
+
+.nf
+    #include "main.h"
+    #include <stdio.h>
+
+    int _printf(const char *format, ...);
+
+    int main() {
+        int len = _printf("Hello, World!\n");
+        printf("Length: %d\n", len);
+        return 0;
+    }
+.fi
+
+In the above example, `Hello, World!` is printed to the standard output, and the length of the output string is returned.
+
+.SH IMPLEMENTATION DETAILS
+The function handles each format specifier by using a helper function for each type. Below is a list of those helper functions:
+
+.SH print_char
+.B int print_char(va_list args);
+.br
+Prints a character passed through the variadic argument list.
+
+Parameters:
+.TP
+.B args
+A 
+.B va_list
+containing the character to print.
+
+Return:
+The function returns the number of characters printed (1).
+
+Example:
+.nf
+    va_list args;
+    va_start(args, format);
+    print_char(args);  // Prints a single character.
+    va_end(args);
+.fi
+
+.SH print_string
+.B int print_string(va_list args);
+.br
+Prints a string passed through the variadic argument list.
+
+Parameters:
+.TP
+.B args
+A 
+.B va_list
+containing the string to print.
+
+Return:
+The function returns the number of characters printed. If the string is NULL, "(null)" is printed instead.
+
+Example:
+.nf
+    va_list args;
+    va_start(args, format);
+    print_string(args);  // Prints a string.
+    va_end(args);
+.fi
+
+.SH print_percent
+.B int print_percent(void);
+.br
+Prints a percent sign ("%").
+
+Return:
+The function returns 1 since it prints a single character.
+
+.SH print_unsigned_number
+.B int print_unsigned_number(va_list args);
+.br
+Prints an unsigned integer passed through the variadic argument list.
+
+Parameters:
+.TP
+.B args
+A 
+.B va_list
+containing the unsigned integer to print.
+
+Return:
+The function returns the number of characters printed.
+
+Example:
+.nf
+    va_list args;
+    va_start(args, format);
+    print_unsigned_number(args);  // Prints an unsigned integer.
+    va_end(args);
+.fi
+
+.SH print_octal
+.B int print_octal(va_list args);
+.br
+Prints an unsigned integer in octal format.
+
+Parameters:
+.TP
+.B args
+A 
+.B va_list
+containing the unsigned integer to print in octal format.
+
+Return:
+The function returns the number of characters printed.
+
+.SH print_hex
+.B int print_hex(va_list args);
+.br
+Prints an unsigned integer in hexadecimal format (lowercase by default).
+
+Parameters:
+.TP
+.B args
+A 
+.B va_list
+containing the unsigned integer to print in hexadecimal format.
+
+Return:
+The function returns the number of characters printed.
+
+.SH print_address
+.B int print_address(va_list args);
+.br
+Prints the address of a pointer in hexadecimal format.
+
+Parameters:
+.TP
+.B args
+A 
+.B va_list
+containing the pointer to print.
+
+Return:
+The function returns the number of characters printed, including the "0x" prefix.
+
+.SH print_number
+.B int print_number(va_list args);
+.br
+Prints a signed integer passed through the variadic argument list.
+
+Parameters:
+.TP
+.B args
+A 
+.B va_list
+containing the signed integer to print.
+
+Return:
+The function returns the number of characters printed.
+
+.SH SEE ALSO
+.B printf(3)
+
