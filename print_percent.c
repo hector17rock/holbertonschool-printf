@@ -5,8 +5,6 @@
 /**
  * print_percent - Prints a percent symbol.
  *
- * @args: va_list parameter (unused but required for consistency).
- *
  * This function writes a percent symbol using the write() function.
  *
  * Return: Always returns 1 (for the one character printed).
