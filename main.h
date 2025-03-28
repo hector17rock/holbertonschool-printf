@@ -15,6 +15,8 @@ int print_octal(va_list args);
 int print_hex(va_list args);
 int print_address(va_list args);
 int print_percent(va_list args);
+int handle_specifiers(va_list args, const char *ptr);
+int print_string_helper(char *str);
 
 /**
  * struct format_specifier - structure for a format specifier and function
